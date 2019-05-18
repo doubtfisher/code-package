@@ -78,14 +78,11 @@ public:
 		{
 			if (cur == parent->_left)
 			{
-				if (cur == parent->_left)
-				{
-					parent->_bf--;
-				}
-				else
-				{
-					parent->_bf++;
-				}
+				parent->_bf--;
+			}
+			else
+			{
+				parent->_bf++;
 			}
 
 			if (parent->_bf == 0)//平衡因子为0，说明此时高度不变，更新结束
@@ -151,7 +148,7 @@ public:
 		}
 		else//当parent不是根节点时
 		{
-			if (pparent->_left = parent)
+			if (pparent->_left == parent)
 			{
 				pparent->_left = subR;
 			}
@@ -211,8 +208,9 @@ public:
 		int bf = subLR->_bf;
 
 		RotateL(parent->_left);//先左旋
-		RotateR(parent->_right);//再右旋
+		RotateR(parent);//再右旋
 		
+		subLR->_bf = 0;
 		//双旋需要处理的是平衡因子
 		if (bf == 1)//意味着在c的位置插入了一个节点
 		{
@@ -238,6 +236,8 @@ public:
 
 		RotateR(parent->_right);//右单旋
 		RotateL(parent);//左单旋
+
+		subRL->_bf = 0;
 
 		//旋转之后，更新平衡因子
 		if (bf == -1)
@@ -290,7 +290,7 @@ public:
 		int leftHeight = Height(root->_left);
 		int rightHeight = Height(root->_right);
 
-		if (rightHeight - leftHeight != _root->_bf)
+		if (rightHeight - leftHeight != root->_bf)
 		{
 			cout << "平衡因子异常" << endl;
 			return false;
